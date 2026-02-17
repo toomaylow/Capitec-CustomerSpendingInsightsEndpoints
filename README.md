@@ -177,6 +177,4 @@ Final image size is typically **~25 MB**.
 
 ---
 
-## 📄 Licence
 
-Internal use — Capitec Bank Ltd © 2024
