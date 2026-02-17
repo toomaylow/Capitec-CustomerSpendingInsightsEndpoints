@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: capitec-dashboard
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.capitec.service=spending-dashboard"
+      - "com.capitec.version=1.0.0"
+
+  # Dev server (override target for local development)
+  dashboard-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: capitec-dashboard-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./index.html:/app/index.html
+    profiles:
+      - dev
